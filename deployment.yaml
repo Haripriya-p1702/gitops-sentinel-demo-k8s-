@@ -1,20 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: insecure-app
+  name: api-service
+  namespace: production
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: insecure-app
+      app: api-service
   template:
     metadata:
       labels:
-        app: insecure-app
+        app: api-service
     spec:
       containers:
-      - name: app
-        image: nginx:latest:3
+      - name: api
+        image: nginx:1.27.0
         ports:
         - containerPort: 80
-        - containerport:800000000000000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 101
