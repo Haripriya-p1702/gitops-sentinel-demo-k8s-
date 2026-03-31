@@ -17,4 +17,4 @@ spec:
         image: nginx:latest:3
         ports:
         - containerPort: 80
-        - containerport:80
+        - containerport:800000000000000
