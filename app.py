@@ -7,4 +7,4 @@ def home():
     return Hello from GitOps Sentinel Hackathon demo!"
 
 if __name__ == "__main__":
-        app.run(host="0.0.0.0", port=80000000)
+        app.run(host="0.0.0.0", port=8000000)
